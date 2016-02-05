@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
 <html> <head>
-<title>Karaoke Finder</title>
+<title>Market Map</title>
 
   <!-- 'viewport' is used by bootstrap to respond to device size -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -37,7 +37,7 @@
 <!-- bootstrap requires a 'container' div around content -->
 <div class="container">
 
-<h1>Karaoke Finder</h1>
+<h1>Market Map</h1>
 
 
 
@@ -77,23 +77,19 @@
  	 });
 	};
 	map.on('click', onMapClick);
+	
+    {% for entry in session.poi %}
+        MQ.geocode().search("{{ entry.address }}").on('success', function(e) {
+          var best = e.result.best,
+          latlng = best.latlng;
+          marker = L.marker([ latlng.lat, latlng.lng ])
+              .addTo(map)
+              .bindPopup("{{entry.place}}" + "<dd>" + "{{entry.address}}" + "<dd>" + "{{entry.phone}}")
+              .openPopup()
+        });
+    {% endfor %}
 
 </script>
-
-  {% for entry in session.poi %}
-    <script type="text/javascript">
-      window.alert({{ entry.address }});
-      MQ.geocode().search({{ entry.address }}).on('success', function(e) {
-        var best = e.result.best,
-        latlng = best.latlng;
-        map.setView(latlng, 12);
-        L.marker([ latlng.lat, latlng.lng ])
-            .addTo(map)
-            .bindPopup('<strong>' + best.adminArea5 + ', ' + best.adminArea3 + '</strong> + is located here.')
-            .openPopup()
-      });
-    </script>
-  {% endfor %}
 
 
 </div>

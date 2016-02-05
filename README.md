@@ -1,26 +1,16 @@
-# proj4-brevet
+# proj5-karaoke
 
 
 ## IX Path
 
-Files may be found ix at /home/users/zgj/CIS399/Project4/proj4-brevet
+Files may be found ix at /home/users/zgj/CIS399/Project5/proj5-karaoke
 
 
 ## Authors 
 
-Initial version by M Young; revised by Zachary Jones 
-
-
-## Files Changed
-
-app.py
-calc.html
-
-## Files added
-
-test_app.py
+Initial version by Zachary Jones, parts of code by Michal Young
 
 
 ## File to run
 
-app.py
+map.py

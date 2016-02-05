@@ -1,19 +1,19 @@
-place: Life Cycle Bike Shop
-address: 1733 Pearl St, Eugene, OR 97401
-phone: (541) 686-2994
+place: Market of Choice
+address: 2580 Willakenzie Rd, Eugene, OR 97401
+phone: (541) 345-3349
 
-place: Hutch’s Bicycle Store
-address: 960 Charnelton St, Eugene, OR 97401
-phone: (541) 345-7521
+place: Market of Choice
+address: 1960 Franklin Blvd, Eugene, OR 97403
+phone: (541) 687-1188
 
-place: Collin’s Cycle Shop
-address: 60 E 11th Ave, Eugene, OR 97401
-phone: (541) 342-4878
+place: Grocery Outlet
+address: 160 S 14th St, Springfield, OR 97477
+phone: (541) 726-1306
 
-place: Arriving By Bike™
-address: 2705 Willamette St, Eugene, OR 97405
-phone: (541) 484-5410
+place: Capella Market
+address: 2489 Willamette St, Eugene, OR 97405
+phone: (541) 345-1014
 
-place: Patchwork Repair
-address: 870 W 2nd Ave, Eugene, OR 97402
-phone: (541) 653-4546
+place: Sunrise Asian Food Market
+address: 70 W 29th Ave, Eugene, OR 97405
+phone: (541) 343-3295

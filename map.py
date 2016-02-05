@@ -1,6 +1,6 @@
 """
 Very simple Flask web site, with one page
-displaying a course schedule.
+displaying a map.
 
 """
 
@@ -10,15 +10,14 @@ from flask import request
 from flask import url_for
 from math import modf
 
+
 import json
 import logging
-
-# Date handling 
-import arrow 
 
 ###
 # Globals
 ###
+
 app = flask.Flask(__name__)
 import CONFIG
 
@@ -27,9 +26,7 @@ app.secret_key = str(uuid.uuid4())
 app.debug=CONFIG.DEBUG
 app.logger.setLevel(logging.DEBUG)
 
-
 POI = "static/POI.txt"
-base = arrow.now()
 
 ###
 # Pages
@@ -50,7 +47,7 @@ def index():
 @app.errorhandler(404)
 def page_not_found(error):
     app.logger.debug("Page not found")
-    flask.session['linkback'] =  flask.url_for("calc")
+    flask.session['linkback'] =  flask.url_for("map")
     return flask.render_template('page_not_found.html'), 404
  
 #################
@@ -59,17 +56,13 @@ def page_not_found(error):
 #
 #################
 
-#funcion used to convert distance to time
-
 def process(raw):
     """
-    Line by line processing of syllabus file.  Each line that needs
-    processing is preceded by 'head: ' for some string 'head'.  Lines
-    may be continued if they don't contain ':'.
+    Line by line processing of file
     """
     field = None
     entry = { }
-    cooked = [ ]
+    finalContent = [ ]
     for line in raw:
         line = line.rstrip()
         if len(line) == 0:
@@ -87,7 +80,7 @@ def process(raw):
 
         if field == "place":
             if entry:
-                cooked.append(entry)
+                finalContent.append(entry)
                 entry = { }
             entry['address'] = ""
             entry['phone'] = ""
@@ -102,9 +95,9 @@ def process(raw):
             raise ValueError("Syntax error in line: {}".format(line))
 
     if entry:
-        cooked.append(entry)
+        finalContent.append(entry)
 
-    return cooked
+    return finalContent
 
 
 
