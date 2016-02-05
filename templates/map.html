@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html> <head>
+<title>Karaoke Finder</title>
+
+  <!-- 'viewport' is used by bootstrap to respond to device size -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Javascript:  JQuery from a content distribution network (CDN) -->
+  <script
+     src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
+  </script>
+
+  <!-- Bootstrap includes javascript and css  (must follow jquery) -->
+  <link rel="stylesheet"
+   href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+   <script
+    src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js">
+   </script>
+	
+    <!-- Leaflet includes javascript and css  (must follow jquery) -->
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+	<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+	
+    <!-- MapQuest Plug In -->
+    <script src="http://www.mapquestapi.com/sdk/leaflet/v2.s/mq-map.js?key=ITrUOopEqoaH9RrBrA1sEN37kgr0frfX"></script>
+    <script src="http://www.mapquestapi.com/sdk/leaflet/v2.s/mq-geocoding.js?key=ITrUOopEqoaH9RrBrA1sEN37kgr0frfX"></script>
+
+  <!-- <script type="text/javascript"  -->
+  <!--    src="/static/js/calc.js"> -->
+  <!-- </script> -->
+</head>
+
+   <!-- Our own style sheet -->
+   <link rel="stylesheet" href="/static/css/map.css" />
+
+<body>
+<!-- bootstrap requires a 'container' div around content -->
+<div class="container">
+
+<h1>Karaoke Finder</h1>
+
+
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<div id="map"></div>
+
+
+
+<script type="text/javascript">
+
+  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+  
+  var map = L.map('map').setView([44.0519, -123.0867], 12);
+ 		  
+  L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+		       attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery ©		  	   <a href="http://mapbox.com">Mapbox</a>',
+		       maxZoom: 18,
+		       id: 'zaurash.p293akig',
+		       accessToken: 'pk.eyJ1IjoiemF1cmFzaCIsImEiOiJjaWs2aGFqa28wMHJ1aTJtMnE3czE4d2kyIn0.u4FNCq-8v7rLbgt6myvweg'
+}).addTo(map);
+
+
+	function onMapClick(e) {
+  	  lat = e.latlng.lat;
+  	lng = e.latlng.lng;
+  	geocode = MQ.geocode().reverse(e.latlng).on('success', function(e) {
+     	 marker = L.marker([lat, lng]).addTo(map).bindPopup(geocode.describeLocation(e.result.best)).openPopup();
+ 	 });
+	};
+	map.on('click', onMapClick);
+
+</script>
+
+  {% for entry in session.poi %}
+    <script type="text/javascript">
+      window.alert({{ entry.address }});
+      MQ.geocode().search({{ entry.address }}).on('success', function(e) {
+        var best = e.result.best,
+        latlng = best.latlng;
+        map.setView(latlng, 12);
+        L.marker([ latlng.lat, latlng.lng ])
+            .addTo(map)
+            .bindPopup('<strong>' + best.adminArea5 + ', ' + best.adminArea3 + '</strong> + is located here.')
+            .openPopup()
+      });
+    </script>
+  {% endfor %}
+
+
+</div>
+</body> </html>
