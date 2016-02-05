@@ -5,6 +5,10 @@
 
 Files may be found ix at /home/users/zgj/CIS399/Project5/proj5-karaoke
 
+## IX Port Used
+
+http://ix.cs.uoregon.edu:7864
+
 
 ## Authors 
 
